@@ -1,3 +1,12 @@
+variable "aws_region" {
+  default     = "us-west-2"
+  description = "AWS region to deploy resources"
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -18,3 +27,14 @@ output "ubuntu_ami_id" {
   description = "The latest Ubuntu 24.04 AMI ID"
   value       = data.aws_ami.ubuntu.id
 }
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.92"
+    }
+  }
+  required_version = ">= 1.2"
+}
+
