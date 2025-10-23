@@ -12,24 +12,20 @@ permissions:
   pull-requests: write
 
 jobs:
-  auto-promote:
-    if: github.event.pull_request.merged == true
+  create-pr:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Create PR from dev → qa
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: qa
-          branch: dev
-          title: "Auto promotion: dev → qa"
-          body: |
-            This is an automated promotion PR generated after merging into the dev branch.
-            Verify and merge once ready for QA deployment.
-          branch-suffix: ""
-          draft: false
+      - name: Setup GitHub CLI
+        uses: cli/cli-action@v2
+
+      - name: Create PR from dev to flux
+        run: |
+          gh pr create --base flux --head dev --title "Merge dev into flux" --body "This pull request was created by a GitHub Action."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
