@@ -31,6 +31,5 @@ jobs:
           body: |
             This is an automated promotion PR generated after merging into the dev branch.
             Verify and merge once ready for QA deployment.
-          branch-suffix: timestamp
-          draft: false # Ensure the PR is not a draft
-          auto-merge: false # Do not auto-merge the PR
+          branch-suffix: ""
+          draft: false
