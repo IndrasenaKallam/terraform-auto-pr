@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "PR: Create"
-        if: github.event.created
-        run: gh pr create --base qa --title "Merge ${{ github.ref_name }} into flux" --body "This pull request was created by a Github Action."
+        if: github.event.pull_request.merged == true
+        run: gh pr create --base qa --head dev --title "Merge dev into qa" --body "This pull request was created by a GitHub Action."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
