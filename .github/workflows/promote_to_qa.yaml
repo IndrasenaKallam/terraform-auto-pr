@@ -20,8 +20,8 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: dev
-          branch: qa
+          base: qa
+          branch: dev
           title: "Promote dev to qa"
           body: |
             This pull request was automatically created by a GitHub Action after merging changes into the dev branch.
