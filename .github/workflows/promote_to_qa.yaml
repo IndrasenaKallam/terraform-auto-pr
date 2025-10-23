@@ -11,13 +11,19 @@ permissions:
 
 jobs:
   create-pr:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: "PR: Create"
-        if: github.event.pull_request.merged == true
-        run: gh pr create --base qa --head dev --title "Merge dev into qa" --body "This pull request was created by a GitHub Action."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: qa
+          branch: dev
+          title: "Promote dev to qa"
+          body: |
+            This pull request was automatically created by a GitHub Action after merging changes into the dev branch.
+          draft: false
