@@ -21,13 +21,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Debug repository state
-        run: |
-          git fetch --all
-          git checkout qa
-          git diff dev
-          git log --oneline --graph --all
-
       - name: Create PR from dev → qa
         uses: peter-evans/create-pull-request@v6
         with:
@@ -39,3 +32,5 @@ jobs:
             This is an automated promotion PR generated after merging into the dev branch.
             Verify and merge once ready for QA deployment.
           branch-suffix: timestamp
+          draft: false # Ensure the PR is not a draft
+          auto-merge: false # Do not auto-merge the PR
