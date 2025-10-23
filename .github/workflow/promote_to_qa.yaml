@@ -1,0 +1,32 @@
+name: Promote Dev to QA
+
+on:
+  push:
+    branches:
+      - dev
+permissions:
+  contents: write
+  pull-requests: write
+  
+jobs:
+  auto-promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create PR from dev → qa
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: qa
+          branch: dev
+          title: "Auto promotion: dev → qa"
+          body: |
+            This is an automated promotion PR generated after merging into the dev branch.
+            Verify and merge once ready for QA deployment.
+
+      - name: Log result
+        run: echo "Promotion PR created from dev → qa"
