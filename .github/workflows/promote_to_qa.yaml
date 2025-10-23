@@ -10,15 +10,23 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  
+
 jobs:
   auto-promote:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main branch
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Debug repository state
+        run: |
+          git fetch --all
+          git checkout qa
+          git diff dev
+          git log --oneline --graph --all
 
       - name: Create PR from dev → qa
         uses: peter-evans/create-pull-request@v6
@@ -30,6 +38,3 @@ jobs:
           body: |
             This is an automated promotion PR generated after merging into the dev branch.
             Verify and merge once ready for QA deployment.
-
-      - name: Log result
-        run: echo "Promotion PR created from dev → qa"
