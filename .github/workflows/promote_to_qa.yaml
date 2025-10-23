@@ -1,11 +1,9 @@
 name: Promote Dev to QA
 
 on:
-  pull_request:
+  push:
     branches:
       - dev
-    types:
-      - closed
 
 permissions:
   contents: write
@@ -14,18 +12,12 @@ permissions:
 jobs:
   create-pr:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Setup GitHub CLI
-        uses: cli/cli-action@v2
-
-      - name: Create PR from dev to flux
-        run: |
-          gh pr create --base flux --head dev --title "Merge dev into flux" --body "This pull request was created by a GitHub Action."
+      - name: "PR: Create"
+        if: github.event.created
+        run: gh pr create --base qa --title "Merge ${{ github.ref_name }} into flux" --body "This pull request was created by a Github Action."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
