@@ -38,3 +38,4 @@ jobs:
           body: |
             This is an automated promotion PR generated after merging into the dev branch.
             Verify and merge once ready for QA deployment.
+          branch-suffix: timestamp
