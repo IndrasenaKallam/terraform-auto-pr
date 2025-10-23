@@ -7,22 +7,25 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
-  create-pr:
+  sync-branches:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: dev
-          branch: qa
-          title: "Promote dev to qa"
-          body: |
-            This pull request was automatically created by a GitHub Action after merging changes into the dev branch.
-          draft: false
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync QA with Dev
+        run: |
+          git checkout qa
+          git merge --no-ff dev -m "Sync qa with dev"
+          git push origin qa
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
