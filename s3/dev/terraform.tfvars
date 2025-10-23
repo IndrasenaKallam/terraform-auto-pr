@@ -1,2 +1,2 @@
 test="a"
-feat_test2="b"
+feat_test2="bc"
