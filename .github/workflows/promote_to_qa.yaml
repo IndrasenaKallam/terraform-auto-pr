@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Authenticate GitHub CLI
-        run: gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+        run: gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
 
       - name: Create or update PR from dev → qa
         run: |
