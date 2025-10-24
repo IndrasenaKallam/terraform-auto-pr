@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   create-pr:
-    runs-on: ip-172-31-23-243
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
