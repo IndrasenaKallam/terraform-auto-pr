@@ -12,7 +12,9 @@ permissions:
 
 jobs:
   create-pr:
-    runs-on: ip-172-31-23-243
+    runs-on: self-hosted  # Indicates this is a self-hosted runner
+    labels: 
+      - ip-172-31-23-243
 
     steps:
       - name: Checkout repository
