@@ -6,6 +6,10 @@ on:
     branches:
       - dev            # Runs whenever code is pushed to dev
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   create-pr:
     runs-on: ubuntu-latest
